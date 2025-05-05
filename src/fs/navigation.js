@@ -21,7 +21,7 @@ export const listFiles = async () => {
 export const changeDirectory = async (path) => {
     try {
       chdir(path);
-      console.log(`✅ Перешли в: ${cwd()}`);
+      console.log(`You move to: ${cwd()}`);
     } catch (error) {
       console.error("Error: folder is not found.");
     }

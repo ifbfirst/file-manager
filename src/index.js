@@ -1,5 +1,6 @@
 import { cwd } from "process";
-import { listFiles, changeDirectory, goUp } from "./fs/navigation.js";
+import { listFiles, changeDirectory, goUp} from "./fs/navigation.js";
+import { readFile,removeFile } from "./fs/fileOperations.js";
 
 const args = process.argv.slice(2);
 const usernameArg = args.find(arg => arg.startsWith("--username="));
@@ -20,7 +21,11 @@ process.stdin.on("data", async (input) => {
     await changeDirectory(command[1]);
   } else if (command[0] === "up") {
     await goUp();
-  } else {
+  } else if (command[0] === "cat") {
+    await readFile(command[1]);
+} else if (command[0] === "rm") {
+  await removeFile(command[1]);
+} else {
     console.log("Invalid input");
   }
 });
