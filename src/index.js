@@ -1,10 +1,10 @@
 import { cwd } from "process";
 import { listFiles, changeDirectory, goUp} from "./fs/navigation.js";
-import { readFile,removeFile } from "./fs/fileOperations.js";
+import { readFile,removeFile,copyFile,renameFile } from "./fs/fileOperations.js";
 
 const args = process.argv.slice(2);
-const usernameArg = args.find(arg => arg.startsWith("--username="));
-const username = usernameArg ? usernameArg.split("=")[1] : "User";
+const usernameArg = process.argv.find(arg => arg.startsWith("--username="));
+const username = usernameArg?.split("=")[1] || "User";
 
 console.log(`Welcome to the File Manager, ${username}!`);
 console.log(`You are currently in ${cwd()}`);
@@ -25,7 +25,11 @@ process.stdin.on("data", async (input) => {
     await readFile(command[1]);
 } else if (command[0] === "rm") {
   await removeFile(command[1]);
-} else {
+}  else if (command[0] === "cp") {
+  await copyFile(command[1], command[2]);
+} else if (command[0] === "rn") {
+  await renameFile(command[1], command[2]);
+}else {
     console.log("Invalid input");
   }
 });
